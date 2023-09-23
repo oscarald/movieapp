@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
 import { toast } from 'vue3-toastify'
 import { useAuthStore } from '../stores/authStore.js'
@@ -8,8 +8,14 @@ const authStore = useAuthStore()
 
 const info = ref({})
 const props = defineProps({
-  id: String,
-  close: Function
+  close: Function,
+  title: String,
+  year: String,
+  genre: String,
+  director: String,
+  poster: String,
+  actors: String,
+  imdbID: String
 })
 
 const addFavorite = async () => {
@@ -33,16 +39,6 @@ const addFavorite = async () => {
     console.log(error)
   }
 }
-
-watch(props, async () => {
-  try {
-    const { data } = await axios.get(`http://www.omdbapi.com/?apikey=6e3aea5b&i=${props.id}`)
-    info.value = data
-  } catch (error) {
-    console.log(error)
-  }
-})
-onMounted(async () => {})
 </script>
 <template>
   <div class="card w-72 bg-base-100 shadow-xl">
@@ -55,22 +51,22 @@ onMounted(async () => {})
     <figure>
       <img
         :src="
-          info.Poster === 'N/A'
+          props.poster === 'N/A'
             ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png'
-            : info.Poster
+            : props.poster
         "
         alt="Movie"
         class="object-cover h-72 w-72"
       />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">{{ info.Title }}</h2>
-      <p><span class="text-gray-700">Año: </span>{{ info.Year }}</p>
-      <p><span class="text-gray-700">Director: </span>{{ info.Director }}</p>
-      <p><span class="text-gray-700">Actores: </span>{{ info.Actors }}</p>
+      <h2 class="card-title">{{ props.title }}</h2>
+      <p><span class="text-gray-700">Año: </span>{{ props.year }}</p>
+      <p><span class="text-gray-700">Director: </span>{{ props.director }}</p>
+      <p><span class="text-gray-700">Actores: </span>{{ props.actors }}</p>
       <div class="card-actions justify-end">
         <button v-if="authStore.token" class="btn btn-accent" @click="addFavorite">
-          Añadir a mis películas
+          Quitar favoritos
         </button>
       </div>
     </div>

@@ -1,8 +1,11 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { ref } from 'vue'
-import LoginComponent from "./components/LoginComponent.vue"
-import RegisterComponent from "./components/RegisterComponent.vue"
+import LoginComponent from './components/LoginComponent.vue'
+import RegisterComponent from './components/RegisterComponent.vue'
+import { useAuthStore } from './stores/authStore.js'
+
+const authStore = useAuthStore()
 const login = ref(false)
 const register = ref(false)
 
@@ -22,10 +25,17 @@ const changeRegister = () => {
           <RouterLink to="/">MovieAPP</RouterLink>
         </div>
         <div class="flex justify-center items-center gap-4">
-          <button class="btn btn-accent ">
+          <button v-if="authStore.token" class="btn btn-accent">
             <RouterLink to="/movies">Mis Películas</RouterLink>
           </button>
-          <button @click="changeLogin" class="btn btn-outline btn-accent ">
+          <button
+            v-if="authStore.token"
+            @click="authStore.logout"
+            class="btn btn-outline btn-accent"
+          >
+            Cerrar Sesión
+          </button>
+          <button v-else @click="changeLogin" class="btn btn-outline btn-accent">
             Iniciar Sesión
           </button>
         </div>
@@ -41,4 +51,3 @@ const changeRegister = () => {
     </div>
   </div>
 </template>
-

@@ -46,16 +46,23 @@ const performSearch = () => {
 <template>
   <div class="my-5">
     <div class="flex justify-center">
-      <input v-model="search" type="text" placeholder="Buscar Películas"
-        class="input input-bordered w-full max-w-xs center" @input="startSearch" />
+      <input
+        v-model="search"
+        type="text"
+        placeholder="Buscar Películas"
+        class="input input-bordered w-full max-w-xs center"
+        @input="startSearch"
+      />
     </div>
     <span v-if="loading" class="loading loading-dots loading-lg"></span>
-    <div class="my-10  flex flex-wrap gap-8 justify-center">
-      <CardComponent :title="info.Title" :poster="info.Poster" :genre="info.Genre" :id="info.imdbID"
-        :showDetails="changeModal" />
-      <CardComponent :title="info.Title" :poster="info.Poster" :genre="info.Genre" :id="info.imdbID"
-        :showDetails="changeModal" />
-
+    <div class="my-10 flex flex-wrap gap-8 justify-center">
+      <CardComponent
+        :title="info.Title"
+        :poster="info.Poster"
+        :genre="info.Genre"
+        :id="info.imdbID"
+        :showDetails="changeModal"
+      />
     </div>
   </div>
   <div class="modal" :class="{ 'modal-open': modal }">
